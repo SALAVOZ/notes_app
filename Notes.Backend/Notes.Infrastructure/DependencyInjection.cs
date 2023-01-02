@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Notes.Application.interfaces;
 
 namespace Notes.Persistence
 {
@@ -13,7 +14,10 @@ namespace Notes.Persistence
             services.AddDbContext<NotesDbContext>(options =>
             {
                 options.UseSqlite(connectionString);
-            });return services;
+            });
+            services.AddScoped<INotesDbContext>(provider => 
+                provider.GetService<NotesDbContext>());
+            return services;
         }
     }
 }
