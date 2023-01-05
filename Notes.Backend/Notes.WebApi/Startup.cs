@@ -10,6 +10,8 @@ using Notes.Persistence;
 using Notes.WebApi.Middleware;
 using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IO;
+using System;
 
 namespace Notes.WebApi
 {
@@ -53,6 +55,13 @@ namespace Notes.WebApi
                 options.Audience = "NotesWebApi";
                 options.RequireHttpsMetadata = false;
             });
+
+            services.AddSwaggerGen(config =>
+            {
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                config.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +71,12 @@ namespace Notes.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(config =>
+            {
+                config.RoutePrefix = string.Empty;
+                config.SwaggerEndpoint("swagger/v1/swagger.json", "Notes API");
+            });
             app.UseCustomExceptionHndler();
             app.UseRouting();
             app.UseHttpsRedirection();
