@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Notes.Application.Notes.Queries.GetNoteList
 {
-    internal class GetNoteListQueryHandler : IRequestHandler<GetNoteListQuery, NoteListVm>
+    public class GetNoteListQueryHandler : IRequestHandler<GetNoteListQuery, NoteListVm>
     {
         private readonly IMapper _mapper;
         private readonly INotesDbContext _dbContext;

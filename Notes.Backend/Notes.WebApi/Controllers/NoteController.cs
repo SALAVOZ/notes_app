@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Notes.Application.Notes.Commands.CreateNote;
 using Notes.Application.Notes.Commands.DeleteNote;
 using Notes.Application.Notes.Commands.UpdateNote;
@@ -20,6 +21,7 @@ namespace Notes.WebApi.Controllers
 
         
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<NoteListVm>> GetAll()
         {
             var query = new GetNoteListQuery
@@ -29,7 +31,9 @@ namespace Notes.WebApi.Controllers
             var vm = await Mediator.Send(query);
             return Ok(vm);
         }
+
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<NoteDetailsVm>> Get(Guid id)
         {
             var query = new GetNoteDetailsQuery
@@ -40,7 +44,9 @@ namespace Notes.WebApi.Controllers
             var vm = await Mediator.Send(query);
             return Ok(vm);
         }
+
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Guid>> Create([FromBody]CreateNoteDto createNoteDto)
         {
             var command = _mapper.Map<CreateNoteCommand>(createNoteDto);
@@ -48,7 +54,9 @@ namespace Notes.WebApi.Controllers
             var noteId = await Mediator.Send(command);
             return Ok(noteId);
         }
+
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Update([FromBody]UpdateNoteDto updateNoteDto)
         {
             var command = _mapper.Map<UpdateNoteCommand>(updateNoteDto);
@@ -56,7 +64,9 @@ namespace Notes.WebApi.Controllers
             await Mediator.Send(command);
             return NoContent();
         }
+
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(Guid id)
         {
             var command = new DeleteNoteCommand
@@ -66,7 +76,6 @@ namespace Notes.WebApi.Controllers
             };
             await Mediator.Send(command);
             return NoContent();
-
         }
     }
 }
