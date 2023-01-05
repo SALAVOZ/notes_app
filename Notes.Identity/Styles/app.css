@@ -1,0 +1,22 @@
+﻿input {
+    font-size: 16px;
+    font-family: Arial;
+    background: #fff;
+    width: 100%;
+}
+
+header {
+    font-family: Arial;
+    color: aqua;
+    font-size: 30px;
+    text-align: center;
+}
+
+button {
+    font-size: 16px;
+    background-color: #ff0000;
+    border-radius: 4px;
+    color: coral;
+    font-family: Arial;
+    width: 100%;
+}
